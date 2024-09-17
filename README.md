@@ -1,5 +1,5 @@
 tech stack : 
-nextjs
-postgres
-prisma
-tailwind
+nextjs,
+postgres,
+prisma,
+tailwind,
