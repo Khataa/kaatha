@@ -1,8 +1,9 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// all utils for prisma
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+enum ShopCategory {
+  WHOLESALE
+  RETAIL
+}
 
 generator client {
   provider = "prisma-client-js"
@@ -11,4 +12,56 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Admin {
+  adminId  Int    @id @default(autoincrement())
+  username String @unique
+  email    String @unique
+  password String
+}
+
+model Shop {
+  shopId               Int            @id @default(autoincrement())
+  shopName             String         @default("Store")
+  shopMerchantName     String
+  shopMerchantEmail    String
+  shopMerchantPassword String
+  shopCategory         ShopCategory
+  shopMerchantMobileNo String
+  shopLocation         String
+  Registration         Registration[]
+}
+
+model Customer {
+  customerId       Int            @id @default(autoincrement())
+  customerName     String
+  customerEmail    String
+  customerPassword String
+  aadharCardNo     String
+  customerMobileNo String
+  customerAddress  String
+  Registration     Registration[]
+}
+
+model Registration {
+  registerdId  Int        @id @default(autoincrement())
+  customerId   Int
+  shopId       Int
+  intialAmount Int        @default(0)
+  customer     Customer   @relation(fields: [customerId], references: [customerId])
+  shop         Shop       @relation(fields: [shopId], references: [shopId])
+  registeredAt DateTime
+  Payments     Payments[]
+}
+
+model Payments {
+  paymentId          Int          @id @default(autoincrement())
+  registeredId       Int
+  paymentDescription String
+  paymentAmount      Int
+  deduct             Boolean
+  add                Boolean
+  paymentDate        DateTime
+  registered         Registration @relation(fields: [registeredId], references: [registerdId])
 }
