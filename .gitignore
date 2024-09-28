@@ -17,6 +17,7 @@
 # production
 /build
 
+.constants.ts
 # misc
 .DS_Store
 *.pem

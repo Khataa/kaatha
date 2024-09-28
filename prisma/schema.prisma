@@ -23,13 +23,14 @@ model Admin {
 
 model Shop {
   shopId               Int            @id @default(autoincrement())
-  shopName             String         @default("Store")
+  shopName             String         @default("Store, Inc.")
   shopMerchantName     String
   shopMerchantEmail    String
   shopMerchantPassword String
   shopCategory         ShopCategory?
   shopMerchantMobileNo String ? 
   shopLocation         String ?
+  isOnBoarded          Boolean @default(false)
   Registration         Registration[]
 }
 
@@ -41,7 +42,10 @@ model Customer {
   aadharCardNo     String ?
   customerMobileNo String ?
   customerAddress  String ?
+  isOnBoarded      Boolean @default(false)
   Registration     Registration[]
+
+
 }
 
 model Registration {
