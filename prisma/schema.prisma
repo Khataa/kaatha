@@ -27,9 +27,9 @@ model Shop {
   shopMerchantName     String
   shopMerchantEmail    String
   shopMerchantPassword String
-  shopCategory         ShopCategory
-  shopMerchantMobileNo String
-  shopLocation         String
+  shopCategory         ShopCategory?
+  shopMerchantMobileNo String ? 
+  shopLocation         String ?
   Registration         Registration[]
 }
 
@@ -38,9 +38,9 @@ model Customer {
   customerName     String
   customerEmail    String
   customerPassword String
-  aadharCardNo     String
-  customerMobileNo String
-  customerAddress  String
+  aadharCardNo     String ?
+  customerMobileNo String ?
+  customerAddress  String ?
   Registration     Registration[]
 }
 
