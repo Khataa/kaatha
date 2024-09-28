@@ -1,1 +1,1 @@
-const JWT_SECRET = "8@HBg68st";
+const JWT_SECRET = process.env.JWT_SECRET;
