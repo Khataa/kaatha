@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
       { status: 400 }
     );
   const shopId = await getShopId(req);
-  if (!shopId) return;
+  if (!shopId) return NextResponse.json({ error: "shop not found", status : false }, {status : 404});
   const id = parseInt(shopId as string);
   const { shopCategory, shopMerchantMobileNo, shopLocation } = body;
   if (!shopCategory || !shopMerchantMobileNo || !shopLocation)

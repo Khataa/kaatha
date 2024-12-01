@@ -44,8 +44,6 @@ model Customer {
   customerAddress  String ?
   isOnBoarded      Boolean @default(false)
   Registration     Registration[]
-
-
 }
 
 model Registration {

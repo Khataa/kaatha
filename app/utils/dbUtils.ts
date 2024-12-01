@@ -2,7 +2,8 @@ import { NextResponse } from "next/server";
 
 export async function handlePrismaOperation(operation :()=>Promise<any>, res : NextResponse){
     try {
-        return await operation();
+        const result =  await operation();
+        return result;
     }catch(e){
         return NextResponse.json({error : e}, {status : 500});
     }

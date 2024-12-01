@@ -4,6 +4,7 @@ import Prisma from "@/db/prisma";
 import { validatePassword } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "@/constants";
 
 export async function POST(req: NextRequest) {
   if (!checkPostRequestOrSetError)
@@ -40,8 +41,11 @@ export async function POST(req: NextRequest) {
       },
       { status: 400 }
     );
-  const token = jwt.sign({ authorizationJWT: result.shopId }, JWT_SECRET);
+    if (!JWT_SECRET) {
+      throw new Error('JWT_SECRET is not set');
+    }
+  const token = jwt.sign(result.shopId , JWT_SECRET);
   const res = NextResponse.json({ status: true, message: 'Login successful' });
-  res.cookies.set("token", token);
+  res.cookies.set("authorizationJWTForShop", token);
   return res;
 }
