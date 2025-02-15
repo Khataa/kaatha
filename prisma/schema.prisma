@@ -50,7 +50,7 @@ model Registration {
   registerdId  Int        @id @default(autoincrement())
   customerId   Int
   shopId       Int
-  intialAmount Int        @default(0)
+  amount Int        @default(0)
   customer     Customer   @relation(fields: [customerId], references: [customerId])
   shop         Shop       @relation(fields: [shopId], references: [shopId])
   registeredAt DateTime
