@@ -1,0 +1,7 @@
+Landing Page: Introduce the app and its benefits.
+Sign In/Sign Up Page: Allow users to create accounts or log in.
+Dashboard for User: Provide an overview of the user's account and key metrics.
+Customer Management: Allow shop merchants to manage their customers.
+Transaction Management: Enable recording and viewing of transactions.
+Profile Page: Allow users to manage their profile and settings.
+Admin Panel: For admins to oversee the platform and manage user registrations.

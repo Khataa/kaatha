@@ -4,15 +4,16 @@ import {
   doesCustomeExistsAlready,
 } from "@/app/utils/requestUtils";
 import Prisma from "@/db/prisma";
-import { hashPassword } from "@/lib/utils";
+import { hashPassword } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  if (!checkPostRequestOrSetError)
+  if (!checkPostRequestOrSetError(req))
     return NextResponse.json(
       { error: "invalid request type", status: false },
       { status: 400 }
     );
+
 
   const body = await req.json();
   const { customerName, customerEmail, customerPassword } = body;

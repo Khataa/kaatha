@@ -1,13 +1,13 @@
 import { handlePrismaOperation } from "@/app/utils/dbUtils";
 import { checkPostRequestOrSetError } from "@/app/utils/requestUtils";
 import Prisma from "@/db/prisma";
-import { validatePassword } from "@/lib/utils";
+import { validatePassword } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "@/constants";
 
 export async function POST(req: NextRequest) {
-  if (!checkPostRequestOrSetError)
+  if (!checkPostRequestOrSetError(req))
     return NextResponse.json(
       { error: "invalid request type" },
       { status: 400 }
@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
     }
   const token = jwt.sign(result.shopId , JWT_SECRET);
   const res = NextResponse.json({ status: true, message: 'Login successful' });
-  res.cookies.set("authorizationJWTForShop", token);
+  res.cookies.set("token", token);
+  res.cookies.set("userType", "shop");
   return res;
 }

@@ -1,14 +1,14 @@
 import { handlePrismaOperation } from "@/app/utils/dbUtils";
 import {
-  checkGetRequestOrSetError,
+  checkPostRequestOrSetError,
   doesShopExistsAlready,
 } from "@/app/utils/requestUtils";
 import Prisma from "@/db/prisma";
-import { hashPassword } from "@/lib/utils";
+import { hashPassword } from "@/utils/helpers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  if (!checkGetRequestOrSetError(req))
+  if (!checkPostRequestOrSetError(req))
     return NextResponse.json(
       { error: "invalid request type", status: false },
       { status: 400 }
@@ -33,7 +33,6 @@ export async function POST(req: NextRequest) {
     );
   }
   const shop = await doesShopExistsAlready(shopMerchantEmail);
-  console.log(shop);
   if (shop)
     return NextResponse.json({ error: "shop already exists" }, { status: 400 });
   const password = await hashPassword(shopMerchantPassword);
