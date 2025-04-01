@@ -2,11 +2,13 @@
 import { useAuth } from "@/context/AuthContext";
 import Header from "../comps/header";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 export default function DashBoard(){
     const router = useRouter();
     const {isAuthenticated, token, userType} = useAuth();
     if(!isAuthenticated){
-        router.push('/sign-in');}
+        router.push('/sign-in');
+    }
     return (
         <div>
             <Header/>

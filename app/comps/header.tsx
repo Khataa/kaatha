@@ -21,7 +21,7 @@ const Header = ()=>{
           <div className="flex items-center space-x-4">
             { path==='/'&& <Link href="/sign-in" className="text-gray-600 hover:text-gray-800 transition">Sign In</Link>}
             { path==='/' &&<Link href="/sign-up" className="px-4 py-2 bg-blue-600 text-white rounded-md shadow hover:bg-blue-700 transition">Sign Up</Link>}
-            {isAuthenticated && <Button onClick={logout}>Logout</Button>}
+            {  <Button onClick={logout}>Logout</Button>}
           </div>
         </div>
       </header>

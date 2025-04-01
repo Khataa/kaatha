@@ -31,11 +31,12 @@ export async function doesShopExistsAlready(shopMerchantEmail: string) {
 export async function getShopId(req: NextRequest) {
   const authorizationJWT = req.cookies.get("token");
   if (!authorizationJWT) return null;
-  const getShopId = await getShopIdFromToken(authorizationJWT.value);
+  const getShopId = await getIdFromToken(authorizationJWT.value);
   return getShopId as string;
 }
 
-export async function getShopIdFromToken(token: string) {
+
+export async function getIdFromToken(token: string) {
   if (!JWT_SECRET) {
     throw new Error("JWT_SECRET is not set");
   }
@@ -60,15 +61,6 @@ export async function doesCustomeExistsAlready(customerEmail: string) {
 export async function getCustomerId(req: NextRequest) {
   const authorizationJWT = req.cookies.get("token");
   if (!authorizationJWT) return null;
-  const customerId = await getCustomerIdFromToken(authorizationJWT.value);
+  const customerId = await getIdFromToken(authorizationJWT.value);
   return customerId as string;
-}
-
-export async function getCustomerIdFromToken(token: string) {
-  if (!JWT_SECRET) throw new Error("JWT_SECRET is not set");
-  try {
-    return jwt.verify(token, JWT_SECRET);
-  } catch (error) {
-    return null;
-  }
 }

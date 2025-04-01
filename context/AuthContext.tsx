@@ -1,6 +1,7 @@
 'use client'
 import React, {createContext, useEffect, useState } from "react";
 import Cookie from "js-cookie";
+import { getIdFromToken } from "@/app/utils/requestUtils";
 interface AuthContextType {
   isAuthenticated: boolean;
   token: string | null;
@@ -15,6 +16,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [userType, setUserType] = useState<"shop" | "customer" | null>(null);
+  const [userDetails, setUserDetails] = useState<any>(null);
+
+  async function getUserDetails(userId : string, userType : string) {
+    if(userType === 'shop'){
+      try{
+        const response = await fetch(`http://localhost:3000/api/auth/shop-merchant/user-details?merchantId=${userId}`);
+        const data = await response.json();
+        setUserDetails(data);
+      }catch(e){
+        console.log(e);
+      }
+    }else{
+      try{
+        const response = await fetch(`http://localhost:3000/api/auth/customer/user-details?customerId=${userId}`);
+        const data = await response.json();
+        setUserDetails(data);
+      }catch(e){
+        console.log(e);
+      }
+    }
+  }
 
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -24,13 +46,22 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       setToken(storedToken);
       setUserType(storedUserType as "shop" | "customer");
     }
+    async function fetchUserDetails(){
+      if(storedToken && storedUserType){
+        const userId = await getIdFromToken(storedToken);
+        await getUserDetails(userId as string, storedUserType);
+      }
+    }
+    fetchUserDetails();
   }, []);
-  function login(token : string, userType : 'shop' | 'customer') {
+  async function login(token : string, userType : 'shop' | 'customer') {
     setIsAuthenticated(true);
     setToken(token);
     setUserType(userType);
     localStorage.setItem("token", token);
     localStorage.setItem("userType", userType);
+    const userId = await getIdFromToken(token);
+    await getUserDetails(userId as string, userType);
   }
   function logout() {
     setIsAuthenticated(false);
@@ -54,4 +85,5 @@ export const useAuth = ()=>{
       throw new Error("useAuth must be used within a AuthProvider");
     }
     return context;
-}
+  }
+  
